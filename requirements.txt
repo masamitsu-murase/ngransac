@@ -1,0 +1,9 @@
+future==0.18.2
+icc-rt==2019.0
+intel-openmp==2019.0
+numpy==1.18.3
+openvino-python==2020.1.33
+openvino-rt==2020.1.33
+Pillow==7.1.2
+torch==1.5.0+cpu
+torchvision==0.6.0+cpu
