@@ -72,8 +72,8 @@ if len(model_file) == 0:
 	print(model_file)
 
 model = CNNet(opt.resblocks)
-model.load_state_dict(torch.load(model_file))
-model = model.cuda()
+model.load_state_dict(torch.load(model_file, map_location=torch.device('cpu')))
+# model = model.cuda()
 model.eval()
 print("Successfully loaded model.")
 
@@ -137,10 +137,14 @@ for (m,n) in matches:
 print("Number of valid matches:", len(good_matches))
 
 pts1 = np.array([pts1])
+print(pts1.shape)
 pts2 = np.array([pts2])
+print(pts2.shape)
 
 ratios = np.array([ratios])
+print("ratios1", ratios.shape)
 ratios = np.expand_dims(ratios, 2)
+print("ratios2", ratios.shape)
 
 # ------------------------------------------------
 # fit fundamental or essential matrix using OPENCV
@@ -155,7 +159,9 @@ else:
 
 	# normalize key point coordinates when fitting the essential matrix
 	pts1 = cv2.undistortPoints(pts1, K1, None)
+	pts1 = pts1.transpose(1, 0, 2)
 	pts2 = cv2.undistortPoints(pts2, K2, None)
+	pts2 = pts2.transpose(1, 0, 2)
 
 	K = np.eye(3)
 
@@ -181,12 +187,15 @@ if opt.nosideinfo:
 	ratios = np.zeros(ratios.shape)
 
 # create data tensor of feature coordinates and matching ratios
+print(pts1.shape)
+print(pts2.shape)
+print(ratios.shape)
 correspondences = np.concatenate((pts1, pts2, ratios), axis=2)
 correspondences = np.transpose(correspondences)
 correspondences = torch.from_numpy(correspondences).float()
 
 # predict neural guidance, i.e. RANSAC sampling probabilities
-log_probs = model(correspondences.unsqueeze(0).cuda())[0] #zero-indexing creates and removes a dummy batch dimension
+log_probs = model(correspondences.unsqueeze(0))[0] #zero-indexing creates and removes a dummy batch dimension
 probs = torch.exp(log_probs).cpu()
 
 out_model = torch.zeros((3, 3)).float() # estimated model
