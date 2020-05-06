@@ -40,7 +40,6 @@ jobs:
       run: |
         call "%VC_PATH%\vcvarsall.bat" %VC_CPU%
         call .\venv\Scripts\activate.bat
-        dir /s setup.py
         echo %OPENCV_PATH%
         cd ngransac
         python setup.py bdist_wheel
