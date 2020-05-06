@@ -3,7 +3,7 @@ name: Wheel
 
 on:
   push:
-    branches: [ master, support_github_actions ]
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
