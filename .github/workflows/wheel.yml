@@ -44,3 +44,7 @@ jobs:
         echo %OPENCV_PATH%
         cd ngransac
         python setup.py bdist_wheel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ngransac_wheel
+        path: ngransac/dist/*.whl
