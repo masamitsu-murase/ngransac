@@ -2,8 +2,8 @@ from setuptools import setup
 from torch.utils.cpp_extension import CppExtension, BuildExtension
 import os
 
-opencv_inc_dir = 'C:/Program Files (x86)/IntelSWTools/openvino_2020.1.033/opencv/include'  # directory containing OpenCV header files
-opencv_lib_dir = 'C:/Program Files (x86)/IntelSWTools/openvino_2020.1.033/opencv/lib'  # directory containing OpenCV library files
+opencv_inc_dir = os.getenv("OPENCV_PATH") + "\\include"
+opencv_lib_dir = os.getenv("OPENCV_PATH") + "\\lib"
 
 #if not explicitly provided, we try to locate OpenCV in the current Conda environment
 conda_env = ''
