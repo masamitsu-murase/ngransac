@@ -34,7 +34,7 @@ jobs:
     - name: Build package
       shell: cmd
       env:
-        OPENCV_PATH: '${{ github.workspace }}\ngransac\ext\opencv_4.2.0_openvino'
+        OPENCV_PATH: '${{ github.workspace }}\ext\opencv_4.2.0_openvino'
         VC_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build'
         VC_CPU: amd64
       run: |
@@ -42,5 +42,5 @@ jobs:
         call .\venv\Scripts\activate.bat
         dir /s setup.py
         echo %OPENCV_PATH%
-        cd ngransac\ngransac
+        cd ngransac
         python setup.py bdist_wheel
